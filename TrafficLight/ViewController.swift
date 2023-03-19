@@ -9,25 +9,36 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var greenLightView: UIView!
-    @IBOutlet weak var yellowLightView: UIView!
     @IBOutlet weak var redLightView: UIView!
+    @IBOutlet weak var yellowLightView: UIView!
+    @IBOutlet weak var greenLightView: UIView!
     @IBOutlet weak var startButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
- 
-        greenLightView.layer.cornerRadius = 50
-        yellowLightView.layer.cornerRadius = 50
+        
         redLightView.layer.cornerRadius = 50
+        yellowLightView.layer.cornerRadius = 50
+        greenLightView.layer.cornerRadius = 50
         startButton.layer.cornerRadius = 10
-    }
-    
-    @IBAction func startButton(_ sender: UIButton) {
-        greenLightView.alpha = 1
-        sender.setTitle("CONTINUE", for: .normal)
         
     }
     
+    @IBAction func startButton(_ sender: UIButton) {
+        sender.setTitle("NEXT", for: .normal)
+        
+        if redLightView.alpha != 1 , yellowLightView.alpha != 1 || greenLightView.alpha == 1 {
+            redLightView.alpha = 1
+            greenLightView.alpha = 0.2
+        } else if redLightView.alpha == 1 {
+            yellowLightView.alpha = 1
+            redLightView.alpha = 0.2
+        } else if greenLightView.alpha != 1 {
+            greenLightView.alpha = 1
+            redLightView.alpha = 0.2
+            yellowLightView.alpha = 0.2
+        }
+    }
 }
-	
+
+
