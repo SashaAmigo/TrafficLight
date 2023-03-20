@@ -7,7 +7,17 @@
 
 import UIKit
 
+enum currentLight {
+    case red
+    case yellow
+    case green
+}
+
 class ViewController: UIViewController {
+    
+    private var current = currentLight.red
+    private let lightIsOn: CGFloat = 1
+    private let lightIsOff: CGFloat = 0.2
     
     @IBOutlet weak var redLightView: UIView!
     @IBOutlet weak var yellowLightView: UIView!
@@ -17,26 +27,30 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        redLightView.layer.cornerRadius = 50
-        yellowLightView.layer.cornerRadius = 50
-        greenLightView.layer.cornerRadius = 50
+        redLightView.layer.cornerRadius = redLightView.frame.width / 2
+        yellowLightView.layer.cornerRadius = yellowLightView.frame.width / 2
+        greenLightView.layer.cornerRadius = greenLightView.frame.width / 2
         startButton.layer.cornerRadius = 10
-        
     }
     
     @IBAction func startButton(_ sender: UIButton) {
-        sender.setTitle("NEXT", for: .normal)
+        if startButton.currentTitle == "START" {
+            sender.setTitle("NEXT", for: .normal)
+        }
         
-        if redLightView.alpha != 1 , yellowLightView.alpha != 1 || greenLightView.alpha == 1 {
-            redLightView.alpha = 1
-            greenLightView.alpha = 0.2
-        } else if redLightView.alpha == 1 {
-            yellowLightView.alpha = 1
-            redLightView.alpha = 0.2
-        } else if greenLightView.alpha != 1 {
-            greenLightView.alpha = 1
-            redLightView.alpha = 0.2
-            yellowLightView.alpha = 0.2
+        switch current {
+        case .red:
+            redLightView.alpha = lightIsOn
+            greenLightView.alpha = lightIsOff
+            current = .yellow
+        case .yellow:
+            redLightView.alpha = lightIsOff
+            yellowLightView.alpha = lightIsOn
+            current = .green
+        case .green:
+            yellowLightView.alpha = lightIsOff
+            greenLightView.alpha = lightIsOn
+            current = .red
         }
     }
 }
